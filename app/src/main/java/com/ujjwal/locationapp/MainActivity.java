@@ -8,11 +8,16 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.widget.TextView;
+
+import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
 
     Double latitude;
     Double longitude;
+
+    String address = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +48,33 @@ public class MainActivity extends AppCompatActivity {
                 latitude = location.getLatitude();
                 longitude = location.getLongitude();
                 textView.setText("Latitude: " + latitude + "\nLongitude: " + longitude);
+
+                Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+                try {
+                    List<Address> listAddress = geocoder.getFromLocation(latitude, longitude, 1);
+                    if (listAddress != null && listAddress.size() > 0) {
+                        //Toast.makeText(MainActivity.this, listAddress.get(0).toString(), Toast.LENGTH_SHORT).show();
+                        if (listAddress.get(0).getSubThoroughfare() != null) {
+                            address += listAddress.get(0).getSubThoroughfare() + "\n";
+                        }
+                        if (listAddress.get(0).getThoroughfare() != null) {
+                            address += listAddress.get(0).getThoroughfare() + "\n";
+                        }
+                        if (listAddress.get(0).getLocality() != null) {
+                            address += listAddress.get(0).getLocality() + "\n";
+                        }
+                        if (listAddress.get(0).getPostalCode() != null) {
+                            address += listAddress.get(0).getPostalCode() + "\n";
+                        }
+                        if (listAddress.get(0).getCountryName() != null) {
+                            address += listAddress.get(0).getCountryName() + "\n";
+                        }
+                        textView2.setText(address);
+                        address = "";
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
