@@ -108,11 +108,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             onLocation();
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-
-            //Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            //latitude = lastKnownLocation.getLatitude();
-            //longitude = lastKnownLocation.getLongitude();
-            //textView.setText("Latitude: " + latitude + "\nLongitude: " + longitude);
         }
     }
 
@@ -149,6 +144,16 @@ public class MainActivity extends AppCompatActivity {
                 switch (status.getStatusCode()) {
                     case LocationSettingsStatusCodes.SUCCESS:
                         //Log.i(TAG, "All location settings are satisfied.");
+                        try {
+                            if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                                Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                                latitude = lastKnownLocation.getLatitude();
+                                longitude = lastKnownLocation.getLongitude();
+                                textView.setText("Latitude: " + latitude + "\nLongitude: " + longitude);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                         break;
                     case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
                         //Log.i(TAG, "Location settings are not satisfied. Show the user a dialog to upgrade location settings ");
