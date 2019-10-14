@@ -52,6 +52,10 @@ public class MainActivity extends AppCompatActivity {
         textView = findViewById(R.id.main_location);
         textView2 = findViewById(R.id.main_address);
 
+//        String locationProvider = LocationManager.NETWORK_PROVIDER;
+//        locationProvider = LocationManager.GPS_PROVIDER;
+//        locationProvider = LocationManager.PASSIVE_PROVIDER;
+
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
         locationListener = new LocationListener() {
@@ -107,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         } else {
             onLocation();
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
         }
     }
 
@@ -118,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             onLocation();
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
         }
     }
 
@@ -146,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
                         //Log.i(TAG, "All location settings are satisfied.");
                         try {
                             if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                                Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                                Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
                                 latitude = lastKnownLocation.getLatitude();
                                 longitude = lastKnownLocation.getLongitude();
                                 textView.setText("Latitude: " + latitude + "\nLongitude: " + longitude);
