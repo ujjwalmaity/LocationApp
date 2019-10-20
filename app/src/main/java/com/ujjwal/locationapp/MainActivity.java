@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     Double latitude;
     Double longitude;
 
-    String address = "";
+    String address;
 
     final static int REQUEST_CHECK_SETTINGS = 199;
 
@@ -71,23 +71,8 @@ public class MainActivity extends AppCompatActivity {
                     List<Address> listAddress = geocoder.getFromLocation(latitude, longitude, 1);
                     if (listAddress != null && listAddress.size() > 0) {
                         //Toast.makeText(MainActivity.this, listAddress.get(0).toString(), Toast.LENGTH_SHORT).show();
-                        if (listAddress.get(0).getSubThoroughfare() != null) {
-                            address += listAddress.get(0).getSubThoroughfare() + "\n";
-                        }
-                        if (listAddress.get(0).getThoroughfare() != null) {
-                            address += listAddress.get(0).getThoroughfare() + "\n";
-                        }
-                        if (listAddress.get(0).getLocality() != null) {
-                            address += listAddress.get(0).getLocality() + "\n";
-                        }
-                        if (listAddress.get(0).getPostalCode() != null) {
-                            address += listAddress.get(0).getPostalCode() + "\n";
-                        }
-                        if (listAddress.get(0).getCountryName() != null) {
-                            address += listAddress.get(0).getCountryName() + "\n";
-                        }
+                        address = listAddress.get(0).getAddressLine(0);
                         textView2.setText(address);
-                        address = "";
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

@@ -24,6 +24,7 @@
         android:layout_below="@+id/main_location"
         android:layout_centerHorizontal="true"
         android:layout_margin="20dp"
+        android:gravity="center"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="20sp" />
 
